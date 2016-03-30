@@ -1,0 +1,10 @@
+*.exe
+vs/generator/generator.v11.suo
+vs/generator/generator.opensdf
+vs/generator/generator.sdf
+vs/generator/Release/*
+vs/generator/Debug/*
+vs/generator/*/Release/*
+vs/generator/*/Debug/*
+vs/generator/*/*/Release/*
+vs/generator/*/*/Debug/*
