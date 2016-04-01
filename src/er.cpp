@@ -10,7 +10,7 @@ int main (int argc, char* argv[]) {
 	using namespace opt;
 
 	if (chkOption(argv, argv + argc, "-h")) {
-		cout << "rmat [options]" << endl
+		cout << "er [options]" << endl
 			<< " -h:\t ask for help" << endl
 			<< " -s:\t scale,  default: 8" << endl
 			<< " -d:\t degree, default: 8" << endl
@@ -28,37 +28,26 @@ int main (int argc, char* argv[]) {
 	uniform_int_distribution<uint64_t> ud(0, 0xffffffffffffffff);
 
 	uint64_t r, u, v;
-	uint8_t b4 = 0, b4_per_rand = 16, nb4 = 0;
+	uint8_t bits_per_rand = 64 / scale, nbits = 0;
+	uint64_t mask = (1 << scale) - 1;
 
 	if (ofn) {
 		ofstream ofile(ofn, ios::binary);
-		for (uint64_t e = (1 << scale) * degree; e > 0; e--) {
-			u = 0, v = 0;
-			for (int i = 0; i < scale; i++) {
-				if (nb4 == 0) { r = ud(gen); nb4 = b4_per_rand; }
-				b4 = r & 0xf;
-				u <<= 1; v <<= 1;
-				if (b4 == 0) { u++; v++; }
-				else if (b4 <= 3) u++;
-				else if (b4 <= 6) v++;
-				r >>= 4; nb4--;
-			}
+		for (uint64_t e = (1 << scale) * degree * 2; e > 0; e--) {
+			if (nbits == 0) { r = ud(gen); nbits = bits_per_rand; }
+			u = r & mask;
+			r >>= scale; nbits--;
 			ofile.write((char *)&u, sizeof(uint64_t));
-			ofile.write((char *)&v, sizeof(uint64_t));
 		}
 		ofile.close();
 	} else {
 		for (uint64_t e = (1 << scale) * degree; e > 0; e--) {
-			u = 0, v = 0;
-			for (int i = 0; i < scale; i++) {
-				if (nb4 == 0) { r = ud(gen); nb4 = b4_per_rand; }
-				b4 = r & 0xf;
-				u <<= 1; v <<= 1;
-				if (b4 == 0) { u++; v++; }
-				else if (b4 <= 3) u++;
-				else if (b4 <= 6) v++;
-				r >>= 4; nb4--;
-			}
+			if (nbits == 0) { r = ud(gen); nbits = bits_per_rand; }
+			u = r & mask;
+			r >>= scale; nbits--;
+			if (nbits == 0) { r = ud(gen); nbits = bits_per_rand; }
+			v = r & mask;
+			r >>= scale; nbits--;
 			cout << u << " " << v << endl;
 		}
 	}
