@@ -3,7 +3,7 @@ CC = g++
 CXXFLAGS = --std=c++0x -O3
 
 all:
-	make rmat er sw
+	make rmat er sw ba
 
 rmat: rmat.cpp
 	$(CC) rmat.cpp $(CXXFLAGS) -o rmat
@@ -14,6 +14,9 @@ er:   er.cpp
 sw:   sw.cpp
 	$(CC) sw.cpp $(CXXFLAGS) -o sw
 
+ba:   ba.cpp
+	$(CC) ba.cpp $(CXXFLAGS) -o ba
+
 test:
 	make all
 	echo "rmat generat:"
@@ -22,6 +25,8 @@ test:
 	./er   -s 8 -d 8 | wc -l
 	echo "sw   generat:"
 	./sw   -s 8 -d 8 -r 0.01 | wc -l
+	echo "ba   generat:"
+	./ba   -s 8 -d 8 -r 0.01 | wc -l
 
 clean:
-	rm *.exe *.o rmat er sw
+	rm *.exe *.o rmat er sw ba
