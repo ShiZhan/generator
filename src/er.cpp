@@ -1,9 +1,31 @@
 #include <iostream>
 #include <fstream>
+#include <functional>
 #include <random>
 #include <ctime>
 #include <stdint.h>
 #include "options.h"
+
+typedef std::function<void (const uint64_t u, const uint64_t v)> output_function;
+
+uint64_t er_gen(int scale, int degree, int seed, output_function o) {
+  std::mt19937_64 gen(seed);
+  std::uniform_int_distribution<uint64_t> ud(0, 0xffffffffffffffff);
+
+  uint64_t e, r, u, v;
+  uint8_t bits_per_rand = 64 / scale, nbits = 0;
+  uint64_t mask = (1 << scale) - 1;
+  for (e = 0; e < (1 << scale) * degree; e++) {
+    if (nbits == 0) { r = ud(gen); nbits = bits_per_rand; }
+    u = r & mask;
+    r >>= scale; nbits--;
+    if (nbits == 0) { r = ud(gen); nbits = bits_per_rand; }
+    v = r & mask;
+    r >>= scale; nbits--;
+    o(u, v);
+  }
+  return e;
+}
 
 int main (int argc, char* argv[]) {
   using namespace std;
@@ -25,32 +47,17 @@ int main (int argc, char* argv[]) {
   int seed   = getValue(argv, argv + argc, "-r", time(NULL));
   char* ofn  = getOption(argv, argv + argc, "-o");
 
-  mt19937_64 gen(seed);
-  uniform_int_distribution<uint64_t> ud(0, 0xffffffffffffffff);
-
-  uint64_t r, u, v;
-  uint8_t bits_per_rand = 64 / scale, nbits = 0;
-  uint64_t mask = (1 << scale) - 1;
-
   if (ofn) {
     ofstream ofile(ofn, ios::binary);
-    for (uint64_t e = (1 << scale) * degree * 2; e > 0; e--) {
-      if (nbits == 0) { r = ud(gen); nbits = bits_per_rand; }
-      u = r & mask;
-      r >>= scale; nbits--;
+    er_gen(scale, degree, seed, [&ofile](uint64_t u, uint64_t v) -> void {
       ofile.write((char *)&u, sizeof(uint64_t));
-    }
+      ofile.write((char *)&v, sizeof(uint64_t));
+    });
     ofile.close();
   } else {
-    for (uint64_t e = (1 << scale) * degree; e > 0; e--) {
-      if (nbits == 0) { r = ud(gen); nbits = bits_per_rand; }
-      u = r & mask;
-      r >>= scale; nbits--;
-      if (nbits == 0) { r = ud(gen); nbits = bits_per_rand; }
-      v = r & mask;
-      r >>= scale; nbits--;
+    er_gen(scale, degree, seed, [](uint64_t u, uint64_t v) -> void {
       cout << u << " " << v << endl;
-    }
+    });
   }
 
   return 0;
