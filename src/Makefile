@@ -19,14 +19,14 @@ ba:   ba.cpp
 
 test:
 	make all
-	echo "rmat generat:"
+	echo "rmat generate:"
 	./rmat -s 8 -d 8 | wc -l
-	echo "er   generat:"
+	echo "er   generate:"
 	./er   -s 8 -d 8 | wc -l
-	echo "sw   generat:"
-	./sw   -s 8 -d 8 -r 0.01 | wc -l
-	echo "ba   generat:"
-	./ba   -s 8 -d 8 -r 0.01 | wc -l
+	echo "sw   generate:"
+	./sw   -s 8 -d 8 -t 0.01 | wc -l
+	echo "ba   generate:"
+	./ba   -s 8 -d 8 | wc -l
 
 clean:
 	rm *.exe *.o rmat er sw ba
