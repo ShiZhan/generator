@@ -1,0 +1,2 @@
+# edge cat
+od -An -w16 -vtu8 $@
