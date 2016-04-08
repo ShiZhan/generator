@@ -1,2 +1,2 @@
 # edge cat
-od -An -w16 -vtu8 $@
+od -An -w16 -vtu8 $@ | awk '{print $1" "$2}'
