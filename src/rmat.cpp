@@ -8,7 +8,7 @@
 
 typedef std::function<void (const uint64_t u, const uint64_t v)> output_function;
 
-uint64_t rmat_gen(int scale, int degree, int seed, output_function o) {
+void rmat_gen(int scale, int degree, int seed, output_function o) {
   std::mt19937_64 gen(seed);
   std::uniform_int_distribution<uint64_t> ud(0, 0xffffffffffffffff);
 
@@ -49,7 +49,6 @@ int main (int argc, char* argv[]) {
   int degree = getValue(argv, argv + argc, "-d", 8);
   int seed   = getValue(argv, argv + argc, "-r", time(NULL));
   char* ofn  = getOption(argv, argv + argc, "-o");
-
 
   if (ofn) {
     ofstream ofile(ofn, ios::binary);
