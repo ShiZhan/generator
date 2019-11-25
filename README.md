@@ -1,6 +1,6 @@
 # generator
 
-Zhan.Shi @ 2016
+Zhan.Shi @ 2016-2020
 
 ## Introduction
 
@@ -59,4 +59,14 @@ sw [options]
  -r:     srand,  default: current time
  -o:     output, default: console
 ```
+
+## Utility Scripts
+
+### cloned-subgraph-synthesis.sh
+
+Synthetic Graph based on Cloned Subgraphs connected by a Core Graph.
+
+### permutate.sh
+
+Assign consecutive vertex IDs to input graph, or permutate vertex IDs with a map file that holds pre-assigned IDs.
 
