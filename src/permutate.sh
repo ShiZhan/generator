@@ -1,7 +1,7 @@
 EDGES_FILE=$1
 MAP_FILE=$2
 if [ -z $EDGES_FILE ]; then
-    echo "Usage: script <edge list> <vertex map>"
+    echo "Usage: script <edge list> [<vertex map>]"
     exit 1
 fi
 if [ $MAP_FILE ]; then
