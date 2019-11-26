@@ -1,9 +1,8 @@
 if [ $1 ]; then
     read S0 D0 S1 D1 <<< ${1//:/ }
 else
-    script_fn=$(basename "$0")
-    echo "$script_fn <s0:d0:s1:d1>"
-    echo "example: $script_fn 3:4:3:4"
+    echo "cloned-subgraph-synthesis.sh <s0:d0:s1:d1>"
+    echo "  example:                    3:4:3:4"
     exit 1
 fi
 MAX_ID0=$(( (1 << S0) - 1 ))
