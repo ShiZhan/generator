@@ -1,0 +1,1 @@
+sort -n -k1 -k2 | uniq | awk '$1!=$2  { print $0 }'
