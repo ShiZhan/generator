@@ -5,17 +5,19 @@ else
     echo "  example:                    3:4:3:4"
     exit 1
 fi
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+RMAT="$DIR/rmat"
 MAX_ID0=$(( (1 << S0) - 1 ))
 IDS0=`seq 0 $MAX_ID0`
 EDGE_FILE="r0-$S0-$D0-r1-$S1-$D1.edges"
 DICT_FILE="$EDGE_FILE.dict"
 # DICT_FILE="/dev/null"
 cat \
-    <(./rmat -s $S0 -d $D0 | while read u v
+    <($RMAT -s $S0 -d $D0 | while read u v
     do
         echo $u"#0 "$v"#0"
     done) \
-    <(./rmat -s $S1 -d $D1 | while read u v
+    <($RMAT -s $S1 -d $D1 | while read u v
     do
         for i in $IDS0
         do
