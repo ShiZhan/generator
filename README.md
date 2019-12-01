@@ -70,3 +70,11 @@ Synthetic Graph based on Cloned Subgraphs connected by a Core Graph.
 
 Assign consecutive vertex IDs to input graph, or permutate vertex IDs with a map file that holds pre-assigned IDs.
 
+### remove-dup-and-selfloop.sh
+
+Remove duplicated, self-loop edges.
+
+### gen-matrix.sh
+
+Generate adjacency matrix.
+
