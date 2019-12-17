@@ -1,4 +1,8 @@
 *.exe
+*.bin
+*.csv
+*.edges
+*.dict
 vs/generator/generator.v11.suo
 vs/generator/generator.opensdf
 vs/generator/generator.sdf
