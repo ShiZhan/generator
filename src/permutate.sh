@@ -5,7 +5,7 @@ if [ -z $EDGES_FILE ]; then
     exit 1
 fi
 if [ $MAP_FILE ]; then
-    awk -v dict_file=$GRAPH_EDGES".dict" 'FNR == NR {
+    awk -v dict_file=$MAP_FILE 'FNR == NR {
         dict[$1] = NR-1
         i=NR
         next
@@ -17,9 +17,9 @@ if [ $MAP_FILE ]; then
         for (i in dict) {
             print i" "dict[i] > dict_file
         }
-    }' $MAP_FILE $GRAPH_EDGES
+    }' $MAP_FILE $EDGES_FILE
 else
-    awk -v dict_file=$GRAPH_EDGES".dict" 'BEGIN { i=0 } {
+    awk -v dict_file=$EDGES_FILE".dict" 'BEGIN { i=0 } {
         if (!($1 in dict)) dict[$1]=i++
         if (!($2 in dict)) dict[$2]=i++
         print dict[$1]" "dict[$2]
@@ -27,5 +27,5 @@ else
         for (i in dict) {
             print i" "dict[i] > dict_file
         }
-    }' $GRAPH_EDGES
+    }' $EDGES_FILE
 fi
